@@ -1,5 +1,6 @@
 package com.hanghae.spartagoods.entity;
 
+import com.hanghae.spartagoods.dto.SignUpRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -50,4 +51,13 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Basket> basket = new ArrayList<>();
+
+    public Member(String email, String password, MemberRoleEnum role, SignUpRequestDto requestDto) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.gender = requestDto.getGender();
+        this.phone = requestDto.getPhone();
+        this.address = requestDto.getAddress();
+    }
 }
