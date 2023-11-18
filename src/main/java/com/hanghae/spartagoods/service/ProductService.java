@@ -3,6 +3,7 @@ package com.hanghae.spartagoods.service;
 import com.hanghae.spartagoods.dto.ProductRequestDto;
 import com.hanghae.spartagoods.dto.ProductResponseDto;
 import com.hanghae.spartagoods.entity.Product;
+import com.hanghae.spartagoods.exception.NotFoundException;
 import com.hanghae.spartagoods.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,7 @@ public class ProductService {
 
     public Product getProduct(Long id) {
         return productRepository.findById(id).orElseThrow(() ->
-            new IllegalArgumentException("선택한 상품이 존재하지 않습니다.")
+            new NotFoundException("선택한 상품이 존재하지 않습니다.")
         );
     }
 }

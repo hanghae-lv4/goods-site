@@ -15,7 +15,7 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    @ExceptionHandler({ EmailNotFoundException.class })
+    @ExceptionHandler({ EmailNotFoundException.class, NotFoundException.class })
     public ResponseEntity<ErrorResponse> NotFoundException(RuntimeException ex) {
 
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.name(), HttpStatus.NOT_FOUND.value(), ex.getMessage());

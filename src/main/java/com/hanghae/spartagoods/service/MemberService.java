@@ -6,6 +6,7 @@ import com.hanghae.spartagoods.entity.Member;
 import com.hanghae.spartagoods.entity.MemberRoleEnum;
 import com.hanghae.spartagoods.exception.EmailDuplicateException;
 import com.hanghae.spartagoods.exception.EmailNotFoundException;
+import com.hanghae.spartagoods.exception.NotFoundException;
 import com.hanghae.spartagoods.exception.PasswordUnmatched;
 import com.hanghae.spartagoods.jwt.TokenGenerator;
 import com.hanghae.spartagoods.repository.MemberRepository;
@@ -71,7 +72,7 @@ public class MemberService {
     // 이메일과 비밀번호 확인
     private Member validateSignin(String email, String password) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() ->
-            new EmailNotFoundException("등록된 이메일이 없습니다.")
+            new NotFoundException("등록된 이메일이 없습니다.")
         );
 
         if(!passwordEncoder.matches(password,member.getPassword())) {
