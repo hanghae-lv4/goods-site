@@ -1,5 +1,6 @@
 package com.hanghae.spartagoods.entity;
 
+import com.hanghae.spartagoods.dto.BasketRequestDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,5 +35,9 @@ public class Basket {
         this.member = member;
         this.product = product;
         this.amount = amount;
+    }
+
+    public void updateAmount(BasketRequestDto requestDto) {
+        this.amount = requestDto.getAmount();
     }
 }

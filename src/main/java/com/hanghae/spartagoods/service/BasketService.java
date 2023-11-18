@@ -10,9 +10,9 @@ import com.hanghae.spartagoods.repository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +22,7 @@ public class BasketService {
     public String addToBasket(Long productId, BasketRequestDto requestDto, HttpServletRequest request) {
 
         Member member = (Member) request.getAttribute("member");
-        Product product = productRepository.findById(productId).orElseThrow(() ->
-            new IllegalArgumentException("선택한 상품이 존재하지 않습니다.")
-        );
+        Product product = getProduct(productId);
 
         Basket basket = new Basket(member, product, requestDto.getAmount());
 
@@ -41,12 +39,28 @@ public class BasketService {
         List<Product> products = new ArrayList<>();
 
         for (Basket basketItem : basketItems) {
-            Optional<Product> product = productRepository.findById(basketItem.getProduct().getId());
-            Product foundProduct = product.orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-            products.add(foundProduct);
-            amount += foundProduct.getPrice() * basketItem.getAmount();
+            Product product = getProduct(basketItem.getProduct().getId());
+            products.add(product);
+            amount += product.getPrice() * basketItem.getAmount();
         }
 
         return new BasketTotalResponseDto(products, amount);
+    }
+
+    @Transactional
+    public String updateBasket(Long productId, BasketRequestDto requestDto, HttpServletRequest request) {
+        Member member = (Member) request.getAttribute("member");
+        Product product = getProduct(productId);
+        Basket basket = basketRepository.findByMemberIdAndProductId(member.getId(), product.getId());
+        basket.updateAmount(requestDto);
+
+        return "성공적으로 수정하였습니다.";
+    }
+
+    private Product getProduct(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow(() ->
+            new IllegalArgumentException("선택한 상품이 존재하지 않습니다.")
+        );
+        return product;
     }
 }

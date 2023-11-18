@@ -35,9 +35,12 @@ public class BasketController {
         return basketService.getBasket(request);
     }
 
-    @PutMapping("/baskets")
-    public void updateBaskets() {
-
+    @PutMapping("/baskets/{productId}")
+    public ResponseEntity<String> updateBasket(@PathVariable Long productId, @RequestBody BasketRequestDto requestDto, HttpServletRequest request) {
+        String successMessage = basketService.updateBasket(productId, requestDto, request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .contentType(MediaType.TEXT_PLAIN)
+            .body(successMessage);
     }
 
     @DeleteMapping("/baskets")
