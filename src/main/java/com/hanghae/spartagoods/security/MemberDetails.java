@@ -19,6 +19,16 @@ public class MemberDetails implements UserDetails  {
     }
 
     @Override
+    public String getPassword() {
+        return member.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return member.getEmail();
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         MemberRoleEnum role = member.getRole();
         String authority = role.getAuthority();
@@ -28,16 +38,6 @@ public class MemberDetails implements UserDetails  {
         authorities.add(simpleGrantedAuthority);
 
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return member.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return member.getEmail();
     }
 
     @Override

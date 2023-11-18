@@ -1,14 +1,13 @@
 package com.hanghae.spartagoods.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.hanghae.spartagoods.dto.ProductRequestDto;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,4 +33,15 @@ public class Product {
 
     @Column(nullable = false)
     private String category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Basket> productBasket = new ArrayList<>();
+
+    public Product(ProductRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.price = requestDto.getPrice();
+        this.stock = requestDto.getStock();
+        this.intro = requestDto.getIntro();
+        this.category = requestDto.getCategory();
+    }
 }

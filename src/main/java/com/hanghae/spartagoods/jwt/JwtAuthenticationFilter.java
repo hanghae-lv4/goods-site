@@ -1,7 +1,7 @@
 package com.hanghae.spartagoods.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hanghae.spartagoods.dto.LoginRequestDto;
+import com.hanghae.spartagoods.dto.SigninRequestDto;
 import com.hanghae.spartagoods.entity.MemberRoleEnum;
 import com.hanghae.spartagoods.security.MemberDetails;
 import jakarta.servlet.FilterChain;
@@ -18,15 +18,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.io.IOException;
 
 @Slf4j(topic = "로그인 및 JWT 생성")
-@RequiredArgsConstructor
+
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
+
+    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+        setFilterProcessesUrl("/signin");
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("로그인 시도");
         try {
-            LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
+            SigninRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), SigninRequestDto.class);
 
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(

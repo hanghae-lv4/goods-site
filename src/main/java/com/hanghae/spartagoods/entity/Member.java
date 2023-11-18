@@ -1,14 +1,7 @@
 package com.hanghae.spartagoods.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.hanghae.spartagoods.dto.SignupRequestDto;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +41,14 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private MemberRoleEnum role;
 
-    @OneToMany(mappedBy = "member")
-    private List<Basket> basket = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Basket> memberBasket = new ArrayList<>();
+
+    public Member(SignupRequestDto requestDto) {
+        this.email = requestDto.getEmail();
+        this.gender = requestDto.getGender();
+        this.phone = requestDto.getPhone();
+        this.address = requestDto.getAddress();
+        this.role = MemberRoleEnum.valueOf(requestDto.getRole());
+    }
 }

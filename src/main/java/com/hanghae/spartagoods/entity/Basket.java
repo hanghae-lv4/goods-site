@@ -1,11 +1,8 @@
 package com.hanghae.spartagoods.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.hanghae.spartagoods.dto.BasketRequestDto;
+import com.hanghae.spartagoods.dto.BasketUpdateRequestDto;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,8 +21,16 @@ public class Basket {
     private Integer amount;
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+
+    public Basket(BasketRequestDto requestDto, Member member, Product product) {
+        this.amount = requestDto.getAmount();
+        this.member = member;
+        this.product = product;
+    }
 }
