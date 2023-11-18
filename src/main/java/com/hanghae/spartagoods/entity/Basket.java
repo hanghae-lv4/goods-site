@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,4 +29,10 @@ public class Basket {
 
     @ManyToOne
     private Product product;
+
+    public Basket(Member member, Product product, int amount) {
+        this.member = member;
+        this.product = product;
+        this.amount = amount;
+    }
 }
