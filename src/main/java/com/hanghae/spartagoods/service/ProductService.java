@@ -1,12 +1,9 @@
 package com.hanghae.spartagoods.service;
 
-import com.hanghae.spartagoods.jwt.AdminAccess;
 import com.hanghae.spartagoods.dto.ProductRequestDto;
 import com.hanghae.spartagoods.dto.ProductResponseDto;
 import com.hanghae.spartagoods.entity.Product;
 import com.hanghae.spartagoods.repository.ProductRepository;
-import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    @AdminAccess
-    public ProductResponseDto registerProducts(ProductRequestDto requestDto, String jwt)
+
+    public ProductResponseDto registerProducts(ProductRequestDto requestDto)
     {
         Product product = new Product(requestDto);
         return new ProductResponseDto(productRepository.save(product));
