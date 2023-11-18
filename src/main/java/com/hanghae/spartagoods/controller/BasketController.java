@@ -1,13 +1,13 @@
 package com.hanghae.spartagoods.controller;
 
 import com.hanghae.spartagoods.dto.BasketRequestDto;
+import com.hanghae.spartagoods.dto.BasketTotalResponseDto;
 import com.hanghae.spartagoods.service.BasketService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +31,8 @@ public class BasketController {
     }
 
     @GetMapping("/baskets")
-    public void getBaskets() {
-
+    public BasketTotalResponseDto  getBasket(HttpServletRequest request) {
+        return basketService.getBasket(request);
     }
 
     @PutMapping("/baskets")
