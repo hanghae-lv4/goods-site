@@ -1,5 +1,6 @@
 package com.hanghae.spartagoods.entity;
 
+import com.hanghae.spartagoods.dto.ProductRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +35,12 @@ public class Product {
 
     @Column(nullable = false)
     private String category;
+
+    public Product(ProductRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.price = requestDto.getPrice();
+        this.stock = requestDto.getStock();
+        this.intro = requestDto.getIntro();
+        this.category = requestDto.getCategory();
+    }
 }
