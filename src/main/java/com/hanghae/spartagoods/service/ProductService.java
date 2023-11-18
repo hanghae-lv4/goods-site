@@ -6,6 +6,7 @@ import com.hanghae.spartagoods.dto.ProductResponseDto;
 import com.hanghae.spartagoods.entity.Product;
 import com.hanghae.spartagoods.repository.ProductRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,5 +34,11 @@ public class ProductService {
         Page<Product> productList = productRepository.findAll(pageable);
 
         return productList.map(ProductResponseDto::new);
+    }
+
+    public Product getProduct(Long id) {
+        return productRepository.findById(id).orElseThrow(() ->
+            new IllegalArgumentException("선택한 상품이 존재하지 않습니다.")
+        );
     }
 }
