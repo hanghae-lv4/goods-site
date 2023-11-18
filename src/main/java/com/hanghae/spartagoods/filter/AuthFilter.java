@@ -36,9 +36,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String url = httpServletRequest.getRequestURI();
 
-        if (StringUtils.hasText(url) &&
-            (url.startsWith("/signup") || url.startsWith("/signin") || url.startsWith("/products"))
-        ) {
+        if (StringUtils.hasText(url) && (url.startsWith("/signup") || url.startsWith("/signin") || url.startsWith("/products"))) {
             // 회원가입, 로그인 관련 API 는 인증 필요없이 요청 진행
             chain.doFilter(request, response); // 다음 Filter 로 이동
         } else {
@@ -63,8 +61,9 @@ public class AuthFilter implements Filter {
 
                 request.setAttribute("member", member);
                 chain.doFilter(request, response); // 다음 Filter 로 이동
-            }
+            } else {
             throw new IllegalArgumentException("Not Found Token");
+            }
         }
     }
 }
