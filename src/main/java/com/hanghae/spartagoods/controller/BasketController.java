@@ -43,9 +43,12 @@ public class BasketController {
             .body(successMessage);
     }
 
-    @DeleteMapping("/baskets")
-    public void deleteBaskets() {
-
+    @DeleteMapping("/baskets/{productId}")
+    public ResponseEntity<String> deleteBaskets(@PathVariable Long productId, HttpServletRequest request) {
+        String successMessage = basketService.removeBasket(productId, request);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .contentType(MediaType.TEXT_PLAIN)
+            .body(successMessage);
     }
 
 }
