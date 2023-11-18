@@ -1,7 +1,9 @@
 package com.hanghae.spartagoods.controller;
 
-import com.hanghae.spartagoods.dto.SignUpRequestDto;
+import com.hanghae.spartagoods.dto.SigninRequestDto;
+import com.hanghae.spartagoods.dto.SignupRequestDto;
 import com.hanghae.spartagoods.service.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -25,12 +27,14 @@ public class MemberController {
 
     // 회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@Valid @RequestBody SignUpRequestDto requestDto, BindingResult bindingResult) {
+    public ResponseEntity<String> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
         // Validation 예외 처리
         ResponseEntity<String> error = vadlidException(bindingResult);
         if (error != null) {
             return error;
         }
+
+        // Validation 통과
         String successMessage = memberService.signup(requestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -40,8 +44,13 @@ public class MemberController {
     }
 
     @PostMapping("/signin")
-    public void signin() {
+    public ResponseEntity<String> signin(@RequestBody SigninRequestDto requestDto, HttpServletResponse res) {
+        String successMessage = memberService.signin(requestDto, res);
 
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .header(
+                HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
+            .body(successMessage);
     }
 
     private ResponseEntity<String> vadlidException(BindingResult bindingResult) {
