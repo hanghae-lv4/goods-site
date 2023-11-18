@@ -1,14 +1,19 @@
 package com.hanghae.spartagoods.controller;
 
+import com.hanghae.spartagoods.dto.ProductQueryDto;
 import com.hanghae.spartagoods.dto.ProductRequestDto;
 import com.hanghae.spartagoods.dto.ProductResponseDto;
+import com.hanghae.spartagoods.entity.Product;
 import com.hanghae.spartagoods.service.ProductService;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,8 +27,9 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public void getProductsList() {
-
+    public Page<ProductResponseDto> getProductList(
+        @ModelAttribute ProductQueryDto query) {
+        return productService.getProductsList(query.getPage() - 1, query.getSize(), query.getSortBy(), query.isAsc());
     }
 
     @GetMapping("/products/{id}")
