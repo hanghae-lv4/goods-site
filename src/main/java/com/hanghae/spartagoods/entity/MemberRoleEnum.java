@@ -3,6 +3,6 @@ import lombok.Getter;
 
 @Getter
 public enum MemberRoleEnum {
-    ADMIN,  // ADMIN 권한
+    ADMIN,
     USER
 }

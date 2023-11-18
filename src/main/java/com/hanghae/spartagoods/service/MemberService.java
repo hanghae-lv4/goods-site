@@ -25,6 +25,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final TokenGenerator tokenGenerator;
 
+    // 회원 가입
     public String signup(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
 
@@ -47,6 +48,7 @@ public class MemberService {
         return "가입에 성공하였습니다.";
     }
 
+    // 로그인
     public String signin(SigninRequestDto requestDto, HttpServletResponse res) {
         String email = requestDto.getEmail();
         String password = requestDto.getPassword();

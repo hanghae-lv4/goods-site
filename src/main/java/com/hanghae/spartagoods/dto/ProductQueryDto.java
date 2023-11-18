@@ -10,5 +10,4 @@ public class ProductQueryDto {
     private int size;
     private String sortBy;
     private boolean asc;
-
 }
