@@ -63,9 +63,8 @@ public class AuthFilter implements Filter {
 
                 request.setAttribute("member", member);
                 chain.doFilter(request, response); // 다음 Filter 로 이동
-            } else {
-                throw new IllegalArgumentException("Not Found Token");
             }
+            throw new IllegalArgumentException("Not Found Token");
         }
     }
 }
